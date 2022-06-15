@@ -91,8 +91,11 @@ def read_nc_single(sc, paths, **kwargs):
     """
     partition_on = kwargs.get('partition_on')
     partitions = kwargs.get('partitions')
+    squash_time = kwargs.get('squash_time')
 
-    dset = xr.open_dataset(paths)
+    dset = xr.open_dataset(paths, engine="h5netcdf")
+    if squash_time:
+        dset = dset.mean(dim='time', skipna=None)
 
     # D = {'dim_1': dim_1_size, 'dim_2': dim_2_size, ...}
     D ={dset[dimension].name:dset[dimension].size for dimension in partition_on}
