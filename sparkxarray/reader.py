@@ -93,7 +93,7 @@ def read_nc_single(sc, paths, **kwargs):
     partitions = kwargs.get('partitions')
     squash_time = kwargs.get('squash_time')
 
-    dset = xr.open_dataset(paths, engine="h5netcdf")
+    dset = xr.open_dataset(paths, engine="h5netcdf", cache=False)
     if squash_time:
         dset = dset.mean(dim='time', skipna=None)
 
